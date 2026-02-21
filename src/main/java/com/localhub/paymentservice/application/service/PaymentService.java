@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -40,8 +42,8 @@ public class PaymentService {
             throw new InvalidPaymentStateException("Payment gateway failed to reserve payment");
         }
 
-        double platformFee = request.amount() * 0.10;
-        double providerPayout = request.amount() - platformFee;
+        BigDecimal platformFee = request.amount().multiply(new BigDecimal("0.10")).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal providerPayout = request.amount().subtract(platformFee).setScale(2, RoundingMode.HALF_UP);
 
         Payment payment = Payment.builder()
                 .bookingId(request.bookingId())

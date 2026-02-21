@@ -1,5 +1,6 @@
 package com.localhub.paymentservice.exposition.dto;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -7,9 +8,9 @@ import java.util.UUID;
 public record PaymentResponse(
         UUID id,
         Long bookingId,
-        Double amount,
-        Double platformFee,
-        Double providerPayout,
+        BigDecimal amount,
+        BigDecimal platformFee,
+        BigDecimal providerPayout,
         String currency,
         String status,
         Instant reservedAt,

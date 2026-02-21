@@ -5,7 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
-    <include file="db/changelog/001_create_payments_table.xml"/>
-    <include file="db/changelog/002_change_amount_to_decimal.xml"/>
+    <changeSet id="002" author="localhub">
+        <modifyDataType tableName="payments" columnName="amount" newDataType="DECIMAL(12,2)"/>
+        <modifyDataType tableName="payments" columnName="platform_fee" newDataType="DECIMAL(12,2)"/>
+        <modifyDataType tableName="payments" columnName="provider_payout" newDataType="DECIMAL(12,2)"/>
+    </changeSet>
 
 </databaseChangeLog>

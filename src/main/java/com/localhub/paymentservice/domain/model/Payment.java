@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -36,12 +37,14 @@ public class Payment {
     @Column(nullable = false)
     private Long bookingId;
 
-    @Column(nullable = false)
-    private Double amount;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal amount;
 
-    private Double platformFee;
+    @Column(precision = 12, scale = 2)
+    private BigDecimal platformFee;
 
-    private Double providerPayout;
+    @Column(precision = 12, scale = 2)
+    private BigDecimal providerPayout;
 
     @Builder.Default
     private String currency = "EUR";

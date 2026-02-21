@@ -6,5 +6,6 @@
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <include file="db/changelog/001_create_payments_table.xml"/>
+    <include file="db/changelog/002_change_amount_to_decimal.xml"/>
 
 </databaseChangeLog>
