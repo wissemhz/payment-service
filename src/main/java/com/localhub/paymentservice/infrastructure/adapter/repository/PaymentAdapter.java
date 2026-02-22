@@ -1,10 +1,13 @@
 package com.localhub.paymentservice.infrastructure.adapter.repository;
 
 import com.localhub.paymentservice.domain.model.Payment;
+import com.localhub.paymentservice.domain.model.PaymentStatus;
 import com.localhub.paymentservice.domain.port.PaymentPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,5 +30,10 @@ public class PaymentAdapter implements PaymentPort {
     @Override
     public Optional<Payment> findByBookingId(Long bookingId) {
         return jpaPaymentRepository.findByBookingId(bookingId);
+    }
+
+    @Override
+    public List<Payment> findByStatusAndReservedAtBefore(PaymentStatus status, Instant cutoff) {
+        return jpaPaymentRepository.findByStatusAndReservedAtBefore(status, cutoff);
     }
 }

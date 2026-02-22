@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,9 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
     private final PaymentGatewayAdapter paymentGatewayAdapter;
 
+    @org.springframework.beans.factory.annotation.Value("${platform.fee.rate:0.10}")
+    private double platformFeeRate;
+
     /**
      * Reserve a payment for a booking.
      * Platform fee = 10% of amount, provider payout = amount - platform fee.
@@ -36,13 +40,23 @@ public class PaymentService {
     public PaymentResponse reservePayment(ReservePaymentRequest request) {
         log.info("Reserving payment for bookingId={} amount={}", request.bookingId(), request.amount());
 
+        // Idempotency: if a payment already exists for this booking, return it
+        Optional<Payment> existingPayment = paymentPort.findByBookingId(request.bookingId());
+        if (existingPayment.isPresent()) {
+            Payment existing = existingPayment.get();
+            if (existing.getStatus() == PaymentStatus.RESERVED || existing.getStatus() == PaymentStatus.CAPTURED) {
+                log.info("Payment already exists for bookingId={}, returning existing payment id={}", request.bookingId(), existing.getId());
+                return paymentMapper.toResponse(existing);
+            }
+        }
+
         // Call mock payment gateway to reserve
         boolean reserved = paymentGatewayAdapter.reserve(request.amount(), request.paymentMethodId());
         if (!reserved) {
             throw new InvalidPaymentStateException("Payment gateway failed to reserve payment");
         }
 
-        BigDecimal platformFee = request.amount().multiply(new BigDecimal("0.10")).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal platformFee = request.amount().multiply(BigDecimal.valueOf(platformFeeRate)).setScale(2, RoundingMode.HALF_UP);
         BigDecimal providerPayout = request.amount().subtract(platformFee).setScale(2, RoundingMode.HALF_UP);
 
         Payment payment = Payment.builder()

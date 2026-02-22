@@ -1,6 +1,7 @@
 com/localhub/paymentservice/domain/model/Payment$PaymentBuilder.class
 com/localhub/paymentservice/domain/port/PaymentPort.class
 com/localhub/paymentservice/exposition/dto/StandardErrorResponse.class
+com/localhub/paymentservice/infrastructure/filter/RequestResponseLoggingFilter.class
 com/localhub/paymentservice/exposition/dto/PaymentResponse.class
 com/localhub/paymentservice/infrastructure/security/JwtService.class
 com/localhub/paymentservice/domain/mapper/PaymentMapper.class
@@ -18,6 +19,7 @@ com/localhub/paymentservice/domain/model/Payment.class
 com/localhub/paymentservice/infrastructure/security/JwtAuthenticationFilter.class
 com/localhub/paymentservice/exposition/controller/PaymentController.class
 com/localhub/paymentservice/infrastructure/adapter/repository/PaymentAdapter.class
+com/localhub/paymentservice/infrastructure/filter/CorrelationIdFilter.class
 com/localhub/paymentservice/configuration/SwaggerConfig.class
 com/localhub/paymentservice/exposition/dto/RefundRequest.class
 com/localhub/paymentservice/infrastructure/adapter/repository/JpaPaymentRepository.class

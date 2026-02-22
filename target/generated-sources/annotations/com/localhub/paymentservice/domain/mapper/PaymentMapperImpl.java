@@ -2,6 +2,7 @@ package com.localhub.paymentservice.domain.mapper;
 
 import com.localhub.paymentservice.domain.model.Payment;
 import com.localhub.paymentservice.exposition.dto.PaymentResponse;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-13T21:14:39+0100",
+    date = "2026-02-21T16:23:32+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.14 (Homebrew)"
 )
 @Component
@@ -24,9 +25,9 @@ public class PaymentMapperImpl implements PaymentMapper {
 
         UUID id = null;
         Long bookingId = null;
-        Double amount = null;
-        Double platformFee = null;
-        Double providerPayout = null;
+        BigDecimal amount = null;
+        BigDecimal platformFee = null;
+        BigDecimal providerPayout = null;
         String currency = null;
         Instant reservedAt = null;
         Instant capturedAt = null;
