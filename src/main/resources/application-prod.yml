@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+internal:
+  api:
+    key: ${INTERNAL_API_KEY}
+
+# Actuator hardening
+management:
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    com.localhub: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+  pattern:
+    console: '{"timestamp":"%d{ISO8601}","level":"%level","correlationId":"%X{correlationId:-none}","service":"payment-service","thread":"%thread","logger":"%logger{36}","message":"%msg"}%n'
